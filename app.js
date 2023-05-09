@@ -161,6 +161,18 @@ app.get("/idees_admin", function (req, res) {
   }
 });
 
+app.get("/compte", function (req, res) {
+  if (req.isAuthenticated()) {
+    if (req.user.mode === "user") {
+      res.render("compte", { statut: 1, user: req.user });
+    } else {
+      res.render("compte", { statut: 2, user: req.user });
+    }
+  } else {
+    res.redirect("/login");
+  }
+});
+
 app.get("/logout", function (req, res) {
   req.logout(function (err) {
     if (err) {
