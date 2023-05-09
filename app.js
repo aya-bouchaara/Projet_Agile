@@ -44,23 +44,9 @@ const userSchema = new mongoose.Schema({
   secret: String,
 });
 
-const ideaSchema = new mongoose.Schema({
-  title: String,
-  idee: String,
-  type: String,
-  user: String,
-  user_id: String,
-});
-
-const defiSchema = new mongoose.Schema({
-  defi: String,
-});
-
 userSchema.plugin(passportLocalMongoose);
 
 const User = new mongoose.model("User", userSchema);
-
-const Idea = new mongoose.model("Idea", ideaSchema);
 
 passport.use(User.createStrategy());
 
@@ -93,6 +79,64 @@ app.get("/contact", function (req, res) {
   } else {
     res.render("contact", { statut: 0 });
   }
+});
+
+app.get("/login", function (req, res) {
+  res.render("login");
+});
+
+app.get("/register", function (req, res) {
+  res.render("register");
+});
+
+app.get("/logout", function (req, res) {
+  req.logout(function (err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.redirect("/");
+});
+
+app.post("/register", function (req, res) {
+  console.log(req.body);
+  User.register(
+    {
+      mode: req.body.guard,
+      username: req.body.username,
+      email: req.body.email,
+      name: req.body.name,
+    },
+    req.body.password,
+    function (err, user) {
+      if (err) {
+        console.log(err);
+        res.redirect("/register");
+      } else {
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/");
+        });
+      }
+    }
+  );
+});
+
+app.post("/login", function (req, res) {
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+    mode: req.body.guard,
+  });
+
+  req.login(user, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      passport.authenticate("local")(req, res, function () {
+        res.redirect("/");
+      });
+    }
+  });
 });
 
 app.listen(3000, function (req, res) {
