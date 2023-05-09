@@ -44,9 +44,19 @@ const userSchema = new mongoose.Schema({
   secret: String,
 });
 
+const ideaSchema = new mongoose.Schema({
+  title: String,
+  idee: String,
+  type: String,
+  user: String,
+  user_id: String,
+});
+
 userSchema.plugin(passportLocalMongoose);
 
 const User = new mongoose.model("User", userSchema);
+
+const Idea = new mongoose.model("Idea", ideaSchema);
 
 passport.use(User.createStrategy());
 
@@ -87,6 +97,68 @@ app.get("/login", function (req, res) {
 
 app.get("/register", function (req, res) {
   res.render("register");
+});
+
+app.get("/ecrire_idee", function (req, res) {
+  if (req.isAuthenticated()) {
+    res.render("ecrire_idee", { statut: 1 });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/idees_envoyees", function (req, res) {
+  if (req.isAuthenticated()) {
+    Idea.find(
+      { idee: { $ne: null }, user_id: req.user.id },
+      function (err, foundIdeas) {
+        if (err) {
+          console.log(err);
+        } else {
+          if (foundIdeas) {
+            console.log(foundIdeas);
+            res.render("idees_envoyees", { ideas: foundIdeas, statut: 1 });
+          }
+        }
+      }
+    );
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/idees", function (req, res) {
+  if (req.isAuthenticated()) {
+    Idea.find({ idee: { $ne: null } }, function (err, foundIdeas) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (foundIdeas) {
+          console.log(foundIdeas);
+          res.render("idees", { ideas: foundIdeas, statut: 1 });
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/idees_admin", function (req, res) {
+  if (req.isAuthenticated()) {
+    Idea.find({ idee: { $ne: null } }, function (err, foundIdeas) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (foundIdeas) {
+          console.log(foundIdeas);
+          res.render("idees_admin", { ideas: foundIdeas, statut: 2 });
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/logout", function (req, res) {
@@ -135,6 +207,26 @@ app.post("/login", function (req, res) {
       passport.authenticate("local")(req, res, function () {
         res.redirect("/");
       });
+    }
+  });
+});
+
+app.post("/ecrire_idee", function (req, res) {
+  console.log(req.user);
+  const submittedIdea = {
+    title: req.body.title,
+    idee: req.body.idea,
+    type: "idee",
+    user: req.user.name,
+    user_id: req.user.id,
+  };
+
+  const idea = new Idea(submittedIdea);
+  idea.save(function (err, idea) {
+    if (err) {
+      console.error(err);
+    } else {
+      res.redirect("/idees");
     }
   });
 });
