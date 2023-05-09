@@ -1,7 +1,7 @@
 {
   "name": "authentification",
   "version": "1.0.0",
-  "description": "Innovative Idea Box",
+  "description": "Innovative Idea Box v.1.0",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
