@@ -52,11 +52,17 @@ const ideaSchema = new mongoose.Schema({
   user_id: String,
 });
 
+const defiSchema = new mongoose.Schema({
+  defi: String,
+});
+
 userSchema.plugin(passportLocalMongoose);
 
 const User = new mongoose.model("User", userSchema);
 
 const Idea = new mongoose.model("Idea", ideaSchema);
+
+const Defi = new mongoose.model("Defi", defiSchema);
 
 passport.use(User.createStrategy());
 
@@ -144,6 +150,23 @@ app.get("/idees", function (req, res) {
   }
 });
 
+app.get("/defi_mois", function (req, res) {
+  if (req.isAuthenticated()) {
+    Defi.find({ defi: { $ne: null } }, function (err, foundDefi) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (foundDefi) {
+          console.log(foundDefi);
+          res.render("defi_mois", { defi: foundDefi, statut: 1 });
+        }
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
+
 app.get("/idees_admin", function (req, res) {
   if (req.isAuthenticated()) {
     Idea.find({ idee: { $ne: null } }, function (err, foundIdeas) {
@@ -156,6 +179,47 @@ app.get("/idees_admin", function (req, res) {
         }
       }
     });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/voir_defi", function (req, res) {
+  if (req.isAuthenticated()) {
+    Idea.find(
+      { idee: { $ne: null }, type: "defi" },
+      function (err, foundIdeas) {
+        if (err) {
+          console.log(err);
+        } else {
+          if (foundIdeas) {
+            console.log(foundIdeas);
+            Defi.find({ defi: { $ne: null } }, function (err, foundDefi) {
+              if (err) {
+                console.log(err);
+              } else {
+                if (foundDefi) {
+                  console.log(foundDefi);
+                  res.render("voir_defi", {
+                    ideas: foundIdeas,
+                    defi: foundDefi,
+                    statut: 2,
+                  });
+                }
+              }
+            });
+          }
+        }
+      }
+    );
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.get("/ecrire_defi", function (req, res) {
+  if (req.isAuthenticated()) {
+    res.render("ecrire_defi", { statut: 2 });
   } else {
     res.redirect("/login");
   }
@@ -239,6 +303,45 @@ app.post("/ecrire_idee", function (req, res) {
       console.error(err);
     } else {
       res.redirect("/idees");
+    }
+  });
+});
+
+app.post("/defi_mois", function (req, res) {
+  console.log(req.user);
+  const submittedIdea = {
+    title: req.body.title,
+    idee: req.body.idea,
+    type: "defi",
+    user: req.user.name,
+    user_id: req.user.id,
+  };
+
+  const idea = new Idea(submittedIdea);
+  idea.save(function (err, idea) {
+    if (err) {
+      console.error(err);
+    } else {
+      res.redirect("/idees");
+    }
+  });
+});
+
+app.post("/ecrire_defi", function (req, res) {
+  const submittedDefi = {
+    defi: req.body.defi,
+  };
+
+  mongoose.connection.db.dropCollection("defis", function (err, result) {
+    console.log("Collection droped");
+  });
+
+  const defi = new Defi(submittedDefi);
+  defi.save(function (err, defi) {
+    if (err) {
+      console.error(err);
+    } else {
+      res.redirect("/idees_admin");
     }
   });
 });
