@@ -30,7 +30,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+// DB ADDED
 mongoose.connect(
   "mongodb+srv://azerty123:w6nTCAY9DNcBJA6p@cluster1.dp3aos9.mongodb.net/projet_Agile?retryWrites=true&w=majority",
   { useNewUrlParser: true }
