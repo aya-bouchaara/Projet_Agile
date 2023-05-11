@@ -100,7 +100,7 @@ app.get("/contact", function (req, res) {
 app.get("/login", function (req, res) {
   res.render("login");
 });
-
+// cree
 app.get("/register", function (req, res) {
   res.render("register");
 });
