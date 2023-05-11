@@ -167,7 +167,7 @@ app.get("/defi_mois", function (req, res) {
   }
 });
 
-// admin
+
 
 app.get("/idees_admin", function (req, res) {
   if (req.isAuthenticated()) {
