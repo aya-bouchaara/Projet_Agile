@@ -13,57 +13,43 @@
           <div class="bar"></div>
         </div>
         <ul>
-          <% if(statut != 0 ) { %>
-            <% if(statut === 1){ %>
-              <li>
-                <a href="ecrire_idee"> écrire idée </a>
-              </li>
-              <li>
-                <a href="idees_envoyees"> idées envoyées </a>
-              </li>
-              <li>
-                <a href="idees"> toutes les idées </a>
-              </li>
-              <li>
-                <a href="defi_mois"> défi du mois </a>
-              </li>
-              <li>
-                <a href="compte"> Compte </a>
-              </li>
-              <li>
-                <a href="logout">
-                  Se déconnecter
-                </a>
-              </li>
-            <% } else{ %>
-              <li>
-                <a href="ecrire_defi">
-                  écrire défi
-                </a>
-              </li>
-              <li>
-                <a href="voir_defi">
-                  défi du mois
-                </a>
-              </li>
-              <li>
-                <a href="idees_admin">
-                  idées reçues
-                </a>
-              </li>
-              <li>
-                <a href="compte">
-                  Compte
-                </a>
-              </li>
-              <li>
-                <a
-                  href="logout">
-                  Se déconnecter
-                </a>
-              </li>
-            <% } %>
-          <% } else { %>
+          <!-- <button></button> -->
+          <% if(statut != 0 ) { %> <% if(statut === 1){ %>
+          <li>
+            <a href="ecrire_idee"> écrire idée </a>
+          </li>
+          <li>
+            <a href="idees_envoyees"> idées envoyées </a>
+          </li>
+          <li>
+            <a href="idees"> toutes les idées </a>
+          </li>
+          <li>
+            <a href="defi_mois"> défi du mois </a>
+          </li>
+          <li>
+            <a href="compte"> Compte </a>
+          </li>
+          <li>
+            <a href="logout"> Se déconnecter </a>
+          </li>
+          <% } else{ %>
+          <li>
+            <a href="ecrire_defi"> écrire défi </a>
+          </li>
+          <li>
+            <a href="voir_defi"> défi du mois </a>
+          </li>
+          <li>
+            <a href="idees_admin"> idées reçues </a>
+          </li>
+          <li>
+            <a href="compte"> Compte </a>
+          </li>
+          <li>
+            <a href="logout"> Se déconnecter </a>
+          </li>
+          <% } %> <% } else { %>
           <li>
             <a href="/"> Acceuil </a>
           </li>
