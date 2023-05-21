@@ -30,7 +30,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+// DB ADDED
 mongoose.connect(
   "mongodb+srv://azerty123:w6nTCAY9DNcBJA6p@cluster1.dp3aos9.mongodb.net/projet_Agile?retryWrites=true&w=majority",
   { useNewUrlParser: true }
@@ -100,7 +100,7 @@ app.get("/contact", function (req, res) {
 app.get("/login", function (req, res) {
   res.render("login");
 });
-
+// cree
 app.get("/register", function (req, res) {
   res.render("register");
 });
@@ -166,6 +166,8 @@ app.get("/defi_mois", function (req, res) {
     res.redirect("/login");
   }
 });
+
+
 
 app.get("/idees_admin", function (req, res) {
   if (req.isAuthenticated()) {
