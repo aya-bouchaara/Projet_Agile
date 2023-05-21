@@ -10,12 +10,17 @@
       src="{{ URL::asset('js/login.js') }}"
     ></script>
   </head>
+  <!-- rapide -->
+
   <body>
     <div class="container" id="container">
       <div class="form-container sign-in-container">
         <form method="post" action="/login">
           <h1 class="h3 mb-3 fw-normal" id="titre">Se connecter</h1>
-          <div class="form-group form-floating mb-3" style="width: 250px; margin-top: 50px;">
+          <div
+            class="form-group form-floating mb-3"
+            style="width: 250px; margin-top: 50px"
+          >
             <input
               type="text"
               class="form-control"
@@ -46,6 +51,7 @@
           <div class="overlay-panel overlay-right">
             <h1>Bienvenue</h1>
             <p>Commencer votre journée avec nous</p>
+            <!-- marche -->
             <button class="ghost" id="signUp">
               <a href="register">S'inscrire</a>
             </button>

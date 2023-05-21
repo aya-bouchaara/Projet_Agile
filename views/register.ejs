@@ -8,8 +8,10 @@
       type="text/javascript"
       src="{{ URL::asset('js/register.js') }}"
     ></script>
+    <!-- fonctionne -->
     <title>Inscription</title>
   </head>
+  <!-- done -->
   <body>
     <div class="container" id="container">
       <div class="form-container sign-in-container">
@@ -75,7 +77,7 @@
             <h1>Content de vous revoir</h1>
             <p>Déja inscrit?</p>
             <button class="ghost" id="signUp">
-              <a href="login">Se connecter</a>
+              <a href="{{ route('login') }}">Se connecter</a>
             </button>
           </div>
         </div>
