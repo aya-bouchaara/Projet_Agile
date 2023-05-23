@@ -12,7 +12,7 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
+app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -43,6 +43,8 @@ const userSchema = new mongoose.Schema({
   name: String,
   secret: String,
 });
+
+userSchema.plugin(passportLocalMongoose);
 
 const ideaSchema = new mongoose.Schema({
   title: String,
@@ -166,8 +168,6 @@ app.get("/defi_mois", function (req, res) {
     res.redirect("/login");
   }
 });
-
-
 
 app.get("/idees_admin", function (req, res) {
   if (req.isAuthenticated()) {
@@ -348,6 +348,4 @@ app.post("/ecrire_defi", function (req, res) {
   });
 });
 
-app.listen(3000, function (req, res) {
-  console.log("Server started on port 3000");
-});
+module.exports = app;
